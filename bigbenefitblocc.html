@@ -1,0 +1,302 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-benefits-{{ ai_gen_id }}{
+    --gap: clamp(16px,3vw,28px);
+    --bubble: {{ block.settings.bubble_size }}px;
+    --maxw: {{ block.settings.max_width }}px;
+    --colw: {{ block.settings.column_width }}px;
+    --lane-pad: calc(var(--bubble) - 20px);
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding_top }}px 16px {{ block.settings.section_padding_bottom }}px;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+  }
+
+  /* Title — force 500 weight */
+  .ai-benefits-title-{{ ai_gen_id }}{
+    font-size: clamp({{ block.settings.title_size_mobile }}px,4vw,{{ block.settings.title_size_desktop }}px);
+    line-height: {{ block.settings.title_line_height }};
+    text-align:center;margin:0 0 28px;color: {{ block.settings.title_color }};
+    font-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+    font-weight: 500;
+  }
+
+  /* ===== DESKTOP / TABLET (unchanged layout) ===== */
+  .ai-benefits-grid-{{ ai_gen_id }}{
+    display:grid;
+    grid-template-columns: var(--colw) 1fr var(--colw);
+    grid-template-rows: repeat(3, 1fr);
+    gap: var(--gap);
+    align-items: center;
+  }
+  .ai-benefit-{{ ai_gen_id }}{ display:grid;align-content:center;gap:6px; }
+
+  /* Benefit headings — force 500 weight */
+  .ai-benefit-title-{{ ai_gen_id }}{
+    margin:0;font-weight:500;
+    color: {{ block.settings.benefit_title_color }};
+    font-size: {{ block.settings.benefit_title_size }}px;
+  }
+  .ai-benefit-text-{{ ai_gen_id }}{ margin:0;opacity:.85;font-size: {{ block.settings.benefit_text_size }}px;line-height:1.4; }
+  .ai-benefit--left{ grid-column: 1; text-align: right; padding-right: var(--lane-pad); }
+  .ai-benefit--right{ grid-column: 3; text-align: left;  padding-left: var(--lane-pad); }
+
+  .ai-benefits-imgwrap-{{ ai_gen_id }}{
+    position:relative;isolation:isolate;grid-column:2;grid-row:1 / -1;
+    display:grid;place-items:center;
+  }
+  .ai-benefits-img-{{ ai_gen_id }}{ width:100%;height:auto;border-radius: {{ block.settings.image_border_radius }}px;display:block; }
+  .ai-benefits-imgwrap-{{ ai_gen_id }}::after{
+    content:"";position:absolute;inset:-8%;
+    background: radial-gradient(60% 60% at 50% 40%, rgba(0,0,0,.06), transparent);
+    z-index:0;border-radius: {{ block.settings.image_border_radius | plus: 4 }}px;
+  }
+
+  .ai-benefits-dot-{{ ai_gen_id }}{
+    grid-column:2;align-self:center;z-index:2;
+    width:var(--bubble);height:var(--bubble);
+    display:grid;place-items:center;
+  }
+  .ai-benefits-dot-{{ ai_gen_id }}--l{ justify-self:start; margin-left:-42px; }
+  .ai-benefits-dot-{{ ai_gen_id }}--r{ justify-self:end;   margin-right:-42px; }
+  .ai-benefits-bubble-{{ ai_gen_id }}{
+    width:100%;height:100%;border-radius:999px;background: {{ block.settings.bubble_background }};
+    box-shadow:0 6px 20px rgba(0,0,0,.08);display:grid;place-items:center;overflow:hidden;
+  }
+  .ai-benefits-icon-{{ ai_gen_id }}{ width: {{ block.settings.icon_size }}px;height: {{ block.settings.icon_size }}px;object-fit:contain; }
+
+  /* ===== MOBILE: hide desktop grid, show split list (3 above img, 3 below) ===== */
+  .ai-benefits-list-{{ ai_gen_id }}{ display:none; }
+
+  @media (max-width:980px){
+    .ai-benefits-grid-{{ ai_gen_id }}{ display:none; }
+
+    .ai-benefits-list-{{ ai_gen_id }}{
+      display:flex;flex-direction:column;gap:22px;
+      max-width: 720px;margin: 0 auto;
+    }
+
+    .ai-benefits-list-item-{{ ai_gen_id }}{
+      display:grid;
+      grid-template-columns: {{ block.settings.bubble_size | times: 0.9 }}px 1fr;
+      column-gap: 14px;
+      align-items:start;
+    }
+
+    .ai-benefits-list-icon-{{ ai_gen_id }}{
+      width: {{ block.settings.bubble_size | times: 0.9 }}px;
+      height: {{ block.settings.bubble_size | times: 0.9 }}px;
+      border-radius:999px;
+      background: {{ block.settings.bubble_background }};
+      box-shadow:0 6px 20px rgba(0,0,0,.08);
+      display:grid;place-items:center;overflow:hidden;
+    }
+    .ai-benefits-list-icon-{{ ai_gen_id }} img{
+      width: {{ block.settings.icon_size | times: 0.9 }}px;
+      height: {{ block.settings.icon_size | times: 0.9 }}px;
+      object-fit:contain;
+    }
+
+    /* Mobile benefit headings — force 500 */
+    .ai-benefits-list-copy-{{ ai_gen_id }} h3{
+      margin:0 0 4px;font-weight:500;
+      color: {{ block.settings.benefit_title_color }};
+      font-size: {{ block.settings.benefit_title_size | minus: 2 }}px;
+    }
+    .ai-benefits-list-copy-{{ ai_gen_id }} p{
+      margin:0;opacity:.9;line-height:1.5;
+      font-size: {{ block.settings.benefit_text_size }}px;
+    }
+
+    .ai-benefits-list-img-{{ ai_gen_id }}{
+      width:100%;height:auto;border-radius: {{ block.settings.image_border_radius }}px;
+      display:block;margin: 8px 0 18px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-benefits-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.title != blank %}
+    <h2 class="ai-benefits-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+  {% endif %}
+
+  {%- comment -%} ======= DESKTOP/TABLET ORIGINAL GRID (unchanged) ======= {%- endcomment -%}
+  <div class="ai-benefits-grid-{{ ai_gen_id }}">
+    {%- for i in (1..3) -%}
+      {%- liquid
+        assign tkey = 'benefit_' | append: i | append: '_title'
+        assign dkey = 'benefit_' | append: i | append: '_text'
+        assign tval = block.settings[tkey]
+        assign dval = block.settings[dkey]
+      -%}
+      {% if tval != blank or dval != blank %}
+        <div class="ai-benefit-{{ ai_gen_id }} ai-benefit--left" style="grid-row:{{ forloop.index }};">
+          {% if tval != blank %}<h3 class="ai-benefit-title-{{ ai_gen_id }}">{{ tval }}</h3>{% endif %}
+          {% if dval != blank %}<p class="ai-benefit-text-{{ ai_gen_id }}">{{ dval }}</p>{% endif %}
+        </div>
+      {% endif %}
+    {%- endfor -%}
+
+    <div class="ai-benefits-imgwrap-{{ ai_gen_id }}">
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 1000 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          class="ai-benefits-img-{{ ai_gen_id }}"
+          loading="lazy">
+      {% else %}
+        <svg width="100%" viewBox="0 0 600 400" role="img" aria-label="Placeholder"></svg>
+      {% endif %}
+    </div>
+
+    {%- for i in (4..6) -%}
+      {%- liquid
+        assign tkey = 'benefit_' | append: i | append: '_title'
+        assign dkey = 'benefit_' | append: i | append: '_text'
+        assign tval = block.settings[tkey]
+        assign dval = block.settings[dkey]
+        assign row  = i | minus: 3
+      -%}
+      {% if tval != blank or dval != blank %}
+        <div class="ai-benefit-{{ ai_gen_id }} ai-benefit--right" style="grid-row:{{ row }};">
+          {% if tval != blank %}<h3 class="ai-benefit-title-{{ ai_gen_id }}">{{ tval }}</h3>{% endif %}
+          {% if dval != blank %}<p class="ai-benefit-text-{{ ai_gen_id }}">{{ dval }}</p>{% endif %}
+        </div>
+      {% endif %}
+    {%- endfor -%}
+
+    {%- for i in (1..6) -%}
+      {%- liquid
+        assign icon_key = 'icon_' | append: i
+        assign icon = block.settings[icon_key]
+        assign row = i
+        if i > 3
+          assign row = i | minus: 3
+        endif
+        if i <= 3
+          assign side = 'l'
+        else
+          assign side = 'r'
+        endif
+      -%}
+      {% if icon != blank %}
+        <div class="ai-benefits-dot-{{ ai_gen_id }} ai-benefits-dot-{{ ai_gen_id }}--{{ side }}" style="grid-row: {{ row }};">
+          <div class="ai-benefits-bubble-{{ ai_gen_id }}">
+            <img src="{{ icon | image_url: width: 120 }}" alt="{{ icon.alt | escape }}" class="ai-benefits-icon-{{ ai_gen_id }}" loading="lazy">
+          </div>
+        </div>
+      {% endif %}
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} ======= MOBILE STACKED LIST (3 above img, 3 below) ======= {%- endcomment -%}
+  <div class="ai-benefits-list-{{ ai_gen_id }}">
+    {%- comment -%} Top 3 benefits {%- endcomment -%}
+    {%- for i in (1..3) -%}
+      {%- liquid
+        assign t = 'benefit_' | append: i | append: '_title'
+        assign d = 'benefit_' | append: i | append: '_text'
+        assign icon_key = 'icon_' | append: i
+        assign tval = block.settings[t]
+        assign dval = block.settings[d]
+        assign icon = block.settings[icon_key]
+      -%}
+      {% if tval != blank or dval != blank %}
+      <div class="ai-benefits-list-item-{{ ai_gen_id }}">
+        <div class="ai-benefits-list-icon-{{ ai_gen_id }}">
+          {% if icon %}
+            <img src="{{ icon | image_url: width: 120 }}" alt="{{ icon.alt | escape }}" loading="lazy">
+          {% endif %}
+        </div>
+        <div class="ai-benefits-list-copy-{{ ai_gen_id }}">
+          {% if tval != blank %}<h3>{{ tval }}</h3>{% endif %}
+          {% if dval != blank %}<p>{{ dval }}</p>{% endif %}
+        </div>
+      </div>
+      {% endif %}
+    {%- endfor -%}
+
+    {% if block.settings.image %}
+      <img
+        src="{{ block.settings.image | image_url: width: 1000 }}"
+        alt="{{ block.settings.image.alt | escape }}"
+        class="ai-benefits-list-img-{{ ai_gen_id }}"
+        loading="lazy">
+    {% endif %}
+
+    {%- comment -%} Bottom 3 benefits {%- endcomment -%}
+    {%- for i in (4..6) -%}
+      {%- liquid
+        assign t = 'benefit_' | append: i | append: '_title'
+        assign d = 'benefit_' | append: i | append: '_text'
+        assign icon_key = 'icon_' | append: i
+        assign tval = block.settings[t]
+        assign dval = block.settings[d]
+        assign icon = block.settings[icon_key]
+      -%}
+      {% if tval != blank or dval != blank %}
+      <div class="ai-benefits-list-item-{{ ai_gen_id }}">
+        <div class="ai-benefits-list-icon-{{ ai_gen_id }}">
+          {% if icon %}
+            <img src="{{ icon | image_url: width: 120 }}" alt="{{ icon.alt | escape }}" loading="lazy">
+          {% endif %}
+        </div>
+        <div class="ai-benefits-list-copy-{{ ai_gen_id }}">
+          {% if tval != blank %}<h3>{{ tval }}</h3>{% endif %}
+          {% if dval != blank %}<p>{{ dval }}</p>{% endif %}
+        </div>
+      </div>
+      {% endif %}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product benefits",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Your Relaxation Starts Here" },
+    { "type": "image_picker", "id": "image", "label": "Center image" },
+
+    { "type": "header", "content": "Benefits" },
+    { "type": "text", "id": "benefit_1_title", "label": "Benefit 1 title", "default": "Natural ingredients" },
+    { "type": "textarea", "id": "benefit_1_text", "label": "Benefit 1 description", "default": "Made with organic, sustainably sourced ingredients" },
+    { "type": "text", "id": "benefit_2_title", "label": "Benefit 2 title", "default": "Great taste" },
+    { "type": "textarea", "id": "benefit_2_text", "label": "Benefit 2 description", "default": "Rich, smooth flavor that coffee lovers crave" },
+    { "type": "text", "id": "benefit_3_title", "label": "Benefit 3 title", "default": "Energy boost" },
+    { "type": "textarea", "id": "benefit_3_text", "label": "Benefit 3 description", "default": "Natural caffeine for sustained energy without the crash" },
+    { "type": "text", "id": "benefit_4_title", "label": "Benefit 4 title", "default": "Ethically sourced" },
+    { "type": "textarea", "id": "benefit_4_text", "label": "Benefit 4 description", "default": "Supporting fair trade and sustainable farming practices" },
+    { "type": "text", "id": "benefit_5_title", "label": "Benefit 5 title", "default": "Freshly roasted" },
+    { "type": "textarea", "id": "benefit_5_text", "label": "Benefit 5 description", "default": "Roasted in small batches for maximum freshness" },
+    { "type": "text", "id": "benefit_6_title", "label": "Benefit 6 title", "default": "Premium quality" },
+    { "type": "textarea", "id": "benefit_6_text", "label": "Benefit 6 description", "default": "Carefully selected beans for the perfect cup every time" },
+
+    { "type": "header", "content": "Icons" },
+    { "type": "image_picker", "id": "icon_1", "label": "Icon 1" },
+    { "type": "image_picker", "id": "icon_2", "label": "Icon 2" },
+    { "type": "image_picker", "id": "icon_3", "label": "Icon 3" },
+    { "type": "image_picker", "id": "icon_4", "label": "Icon 4" },
+    { "type": "image_picker", "id": "icon_5", "label": "Icon 5" },
+    { "type": "image_picker", "id": "icon_6", "label": "Icon 6" },
+
+    { "type": "header", "content": "Style" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#EEE4DB" },
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#434D10" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#434D10" },
+    { "type": "color", "id": "benefit_title_color", "label": "Benefit title color", "default": "#434D10" },
+    { "type": "color", "id": "bubble_background", "label": "Icon bubble background", "default": "#FFFFFF" },
+    { "type": "range", "id": "max_width", "label": "Maximum width", "min": 800, "max": 1400, "step": 50, "unit": "px", "default": 1200 },
+    { "type": "range", "id": "column_width", "label": "Column width", "min": 250, "max": 400, "step": 10, "unit": "px", "default": 330 },
+    { "type": "range", "id": "bubble_size", "label": "Bubble size", "min": 60, "max": 120, "step": 4, "unit": "px", "default": 84 },
+    { "type": "range", "id": "icon_size", "label": "Icon size", "min": 24, "max": 60, "step": 2, "unit": "px", "default": 44 },
+    { "type": "range", "id": "image_border_radius", "label": "Image border radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16 },
+    { "type": "range", "id": "section_padding_top", "label": "Top padding", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 },
+    { "type": "range", "id": "section_padding_bottom", "label": "Bottom padding", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 20 }
+  ],
+  "presets": [{ "name": "Product benefits" }]
+}
+{% endschema %}
