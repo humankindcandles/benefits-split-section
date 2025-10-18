@@ -14,8 +14,10 @@ A drop-in Shopify section (Liquid + CSS) that renders six product benefits with 
 ## Demo
 - Desktop: 3 benefits left, image center, 3 benefits right.
 - Mobile: 1–3 stacked, **image**, 4–6 stacked.
+<img width="1163" height="748" alt="Screenshot 2025-10-17 at 8 29 18 PM" src="https://github.com/user-attachments/assets/6e595185-7208-4a31-8e39-e9e024f06f28" />
+<img width="348" height="889" alt="Screenshot 2025-10-17 at 8 29 53 PM" src="https://github.com/user-attachments/assets/2e92d522-6ace-49af-a3d0-96bbcd4b2d96" />
+<img width="354" height="872" alt="Screenshot 2025-10-17 at 8 30 15 PM" src="https://github.com/user-attachments/assets/c3fbf1bd-0fc6-4853-8606-a76d1c671914" />
 
-*(Screenshots/GIFs welcome here.)*
 
 ---
 
